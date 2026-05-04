@@ -24,54 +24,53 @@ and what the fundamental limitations of acc+gyro fusion are.
   
 ## Experiments & Results: 
 1. Static Test (8 min)
-Goal: Evaluate drift and stability
-Kalman: stable, no drift
-EKF: stable, slightly closer to MATLAB imufilter
+Goal: Evaluate drift and stability.
+Kalman: stable, no drift.
+EKF: stable, slightly closer to MATLAB imufilter.
 
-Conclusion: Both filters perform well under static conditions.
+   Conclusion: Both filters perform well under static conditions.
 
 2. Extreme Orientations
-Goal: Test behavior under large roll/pitch angles
-Both filters closely match imufilter
-Correctly detect reverse-flat (~180° roll)
-Instability observed at pitch ≈ ±90°
-
+Goal: Test behavior under large roll/pitch angles.
+Both filters closely match imufilter.
+Correctly detect reverse-flat (~180° roll).
+Instability observed at pitch ≈ ±90°.
 Note:
 At ±90° pitch, Euler angles become singular (gimbal lock). Roll and yaw are no longer independent, so instability is expected across all methods.
 
 3. Dynamic Motion & Free Fall
-Goal: Evaluate robustness under acceleration and unobservable conditions
-Kalman: tracks motion well, behaves like gyro integration when accel is unreliable
-EKF: matches imufilter, but sensitive to Q tuning (noise vs. bias tradeoff)
-imufilter: conservative, rejects accel when invalid
+Goal: Evaluate robustness under acceleration and unobservable conditions.
+Kalman: tracks motion well, behaves like gyro integration when accel is unreliable.
+EKF: matches imufilter, but sensitive to Q tuning (noise vs. bias tradeoff).
+imufilter: conservative, rejects accel when invalid.
 *Note- for more detailed explainations and plots refer to results/
 
-Observation:
-During strong acceleration or free fall, gravity cannot be isolated from accelerometer data:
-a_measured = g + a_linear
-- Tilt becomes unobservable
-- All filters degrade
+   Observation:
+ During strong acceleration or free fall, gravity cannot be isolated from accelerometer data:
+ a_measured = g + a_linear
+ - Tilt becomes unobservable
+ - All filters degrade
 
 ## Conclusions
-# For 2D tilt only, the Kalman filter is the best practical choice
+ For 2D tilt only, the Kalman filter is the best practical choice
 - Much simpler
 - Robust
 - Covers ground truth extremely well
 - Less sensitive to tuning than EKF
 
-# The EKF is mathematically correct but not worth the complexity for 2D
+ The EKF is mathematically correct but not worth the complexity for 2D
 - More sensitive and noisy
 - Underestimates angles unless tuned aggressively
 
-# Euler angles break at pitch = ±90°
+ Euler angles break at pitch = ±90°
 - Roll becomes undefined
 - This is a representation problem, not a filter problem. Quaternion solve this problem
 
-# Linear acceleration & free fall showcase the limits of acc + gyro
+ Linear acceleration & free fall showcase the limits of acc + gyro
 - Gravity direction becomes unobservable
 - Filters diverge
 - imufilter is conservative by design
 
-## Tools used-
+## Tools used
 1. Matlab
 2. Matlab Mobile App
