@@ -21,41 +21,8 @@ and what the fundamental limitations of acc+gyro fusion are.
 3. MATLAB's Filter(reference)
 - Full 3D quaternion filter
 - Used as 'ground truth' reference for comparison
-
-## Experiments
-1. Long Flat Test (8 minutes)
-- Purpose: check drift, bias and static stability
-# Results:
-- Kalman: stable, no drift
-- EKF: stable, slightly better than Kalman(0.4° closer to Matlab's imufilter)
- Conclusion: Both filters behave correctly in the easiest experiment.
-
-2. Extreme Orientations
-- right/left tilt, upward/downward tilt, reverse flat, mixed roll/pitch combinations
-# Results:
-- Kalman matches imufilter extremely well
-- EKF also matches imufilter when tuned properly
-- Both filters correctly identify reverse-flat(roll ~180°)
-- At pitch ~90°, both filters show roll drift/instability
-
-Why roll becomes unstable at pitch = ±90°
-This is a mathematical singularity of Euler angles:
-At pitch = ±90°, the rotation sequence loses one degree of freedom
-Roll and yaw become coupled
-Small noise in yaw → large apparent changes in roll
-This is not a filter bug — it’s Euler angle ambiguity
-Even MATLAB’s imufilter shows this behavior when converted to Euler angles.
-
-Conclusion: Euler roll is not physically meaningful at ±90° pitch. All filters struggle here because the representation itself breaks.
-
-3. Linear Acceleration & Free Fall(Adversarial Test)
-- Purpose: show the limitations of using acc + gyro for tilt
-- Scenario: 30 seconds of linear acceleration while keeping device flat
-  30 seconds of random fast motion
-  10 seconds flat
-  Free fall with spin (multiple rotations)
   
-# Experiments & Results: 
+## Experiments & Results: 
 1. Static Test (8 min)
 Goal: Evaluate drift and stability
 Kalman: stable, no drift
@@ -77,6 +44,7 @@ Goal: Evaluate robustness under acceleration and unobservable conditions
 Kalman: tracks motion well, behaves like gyro integration when accel is unreliable
 EKF: matches imufilter, but sensitive to Q tuning (noise vs. bias tradeoff)
 imufilter: conservative, rejects accel when invalid
+*Note- for more detailed explainations and plots refer to results/
 
 Observation:
 During strong acceleration or free fall, gravity cannot be isolated from accelerometer data:
