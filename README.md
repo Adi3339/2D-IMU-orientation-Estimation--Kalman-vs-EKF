@@ -43,7 +43,7 @@ Correctly detect reverse-flat (~180° roll).
 Instability observed at pitch ≈ ±90°.
 Note:
 At ±90° pitch, Euler angles become singular (gimbal lock). Roll and yaw are no longer independent, so instability is expected across all methods.
-![Plot2](results/Stable_8mins_test_roll.png)
+![Plot2](results/Matlab_vs_kalman_roll.png)
 
 3. Dynamic Motion & Free Fall
 Goal: Evaluate robustness under acceleration and unobservable conditions.
@@ -56,7 +56,7 @@ imufilter: conservative, rejects accel when invalid.
  a_measured = g + a_linear
  - Tilt becomes unobservable
  - All filters degrade
-
+![Plot3](results/free_fall_matlab_vs_kalmanFilter_roll.png)
 *Note- for more detailed explainations and plots refer to results/
 
 ## Conclusions
