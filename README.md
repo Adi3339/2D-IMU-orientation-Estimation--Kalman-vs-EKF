@@ -9,6 +9,7 @@ and what the fundamental limitations of acc+gyro fusion are.
 A live demo video shows how the filter estimates vs Matlab's filter:
 https://github.com/user-attachments/assets/aaf969d5-d8b9-4232-bf61-81c20be9c1a9
 
+
 ## Implimented Filters
 1. 2D Kalman Filter(KF)
 - State: roll, pitch
@@ -24,14 +25,16 @@ https://github.com/user-attachments/assets/aaf969d5-d8b9-4232-bf61-81c20be9c1a9
 3. MATLAB's Filter(reference)
 - Full 3D quaternion filter
 - Used as 'ground truth' reference for comparison
+
   
 ## Experiments & Results: 
-1. Static Test (8 min)
+1. Static Test (8 min).
 Goal: Evaluate drift and stability.
 Kalman: stable, no drift.
 EKF: stable, slightly closer to MATLAB imufilter.
 
    Conclusion: Both filters perform well under static conditions.
+![Plot1](results/Stable_8mins_test_roll.png)
 
 2. Extreme Orientations
 Goal: Test behavior under large roll/pitch angles.
@@ -40,19 +43,21 @@ Correctly detect reverse-flat (~180° roll).
 Instability observed at pitch ≈ ±90°.
 Note:
 At ±90° pitch, Euler angles become singular (gimbal lock). Roll and yaw are no longer independent, so instability is expected across all methods.
+![Plot2](results/Stable_8mins_test_roll.png)
 
 3. Dynamic Motion & Free Fall
 Goal: Evaluate robustness under acceleration and unobservable conditions.
 Kalman: tracks motion well, behaves like gyro integration when accel is unreliable.
 EKF: matches imufilter, but sensitive to Q tuning (noise vs. bias tradeoff).
 imufilter: conservative, rejects accel when invalid.
-*Note- for more detailed explainations and plots refer to results/
 
    Observation:
  During strong acceleration or free fall, gravity cannot be isolated from accelerometer data:
  a_measured = g + a_linear
  - Tilt becomes unobservable
  - All filters degrade
+
+*Note- for more detailed explainations and plots refer to results/
 
 ## Conclusions
  For 2D tilt only, the Kalman filter is the best practical choice
