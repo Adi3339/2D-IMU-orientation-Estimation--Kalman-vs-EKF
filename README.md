@@ -6,6 +6,9 @@ how they behave under extreme motion,
 and what the fundamental limitations of acc+gyro fusion are.
 *All experiments use real data collected from MATLAB Mobile on a smartphone.
 
+A live demo video shows how the filter estimates vs Matlab's filter:
+https://github.com/user-attachments/assets/aaf969d5-d8b9-4232-bf61-81c20be9c1a9
+
 ## Implimented Filters
 1. 2D Kalman Filter(KF)
 - State: roll, pitch
